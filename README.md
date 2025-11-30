@@ -1,19 +1,20 @@
 # Practical 6A: Git-based Deployment Workflow with GitHub and LocalStack
 
-**Repository:** [practical6-nextjs-app](https://github.com/KeldenPDorji/practical6-nextjs-app)  
-**Live Website:** http://practical6-deployment-dev.s3-website.localhost.localstack.cloud:4566
+**Repository:** [practical6-nextjs-app](https://github.com/Wangpos/practical6-nextjs-app)
 
 ## 📋 Assignment Overview
 
 This project demonstrates a complete Git-based deployment workflow implementation for Practical 6A. It extends Infrastructure as Code knowledge by implementing automated deployments from GitHub to LocalStack S3 using custom deployment scripts and CI/CD concepts.
 
 ### 🎯 Learning Objectives Achieved
+
 - ✅ Created and managed a GitHub repository for infrastructure code
 - ✅ Implemented a Git-based deployment workflow
 - ✅ Automated deployments from GitHub to LocalStack S3
 - ✅ Understood CI/CD concepts and deployment automation
 
 ### 🛠️ Technologies Used
+
 - **Git & GitHub**: Version control and code hosting
 - **Next.js**: React-based web application framework
 - **Bash Scripts**: Deployment automation
@@ -24,238 +25,119 @@ This project demonstrates a complete Git-based deployment workflow implementatio
 ## 🚀 Live Deployment
 
 ### Website Screenshot
+
+# Practical 6A: Git-based Deployment Workflow with GitHub and LocalStack
+
+**Repository:** `practical6-nextjs-app` — https://github.com/Wangpos/practical6-nextjs-app
+
+## Abstract
+
+This repository documents a reproducible, Git-driven deployment workflow developed for Practical 6A. The implementation demonstrates automated delivery of a statically exported Next.js site to an S3-compatible endpoint hosted by LocalStack, including verification and rollback mechanisms. The documentation adopts a formal structure to facilitate evaluation and replication.
+
+## 1. Introduction
+
+The aim of this work is to establish a deterministic pipeline that transfers versioned website artifacts from a GitHub repository to an S3-compatible object store emulated locally by LocalStack. The pipeline is designed for pedagogical clarity and practical reproducibility, highlighting principles of Infrastructure as Code (IaC) and basic CI/CD.
+
+## 2. Materials and Technologies
+
+- `git` and GitHub for version control and hosting
+- Next.js for application development and static export
+- LocalStack (S3) as a local AWS-compatible service
+- Bash scripts and `Makefile` for orchestration
+- Terraform for infrastructure definitions related to Practical 6
+
+## 3. Methods
+
+The deployment pipeline consists of the following high-level steps:
+
+1. Source retrieval: clone or update the repository from GitHub
+2. Build: install dependencies and produce a static export of the Next.js application
+3. Deploy: synchronize the generated static assets with an S3 bucket in LocalStack
+4. Verify: validate HTTP accessibility and asset correctness
+5. Rollback (if required): redeploy an earlier commit using Git history
+
+Scripts implementing the above steps are located in `practical6-example/scripts/` and include `deploy-from-github.sh`, `verify-deployment.sh`, `rollback.sh`, and `watch-and-deploy.sh`.
+
+## 4. Implementation Evidence
+
+The repository includes screenshots that document the deployment and verification process. All image references are retained here to preserve empirical evidence.
+
+Website screenshot
 ![Website Screenshot](image1.png)
-*Live deployed website showing "Practical 6A - Git-based Deployment"*
 
-**Access the live website:**  
-🌐 **http://practical6-deployment-dev.s3-website.localhost.localstack.cloud:4566**
-
-## 📸 Implementation Evidence
-
-### 1. Deployment Process
+Deployment process (examples)
 ![Deployment Process 1](image2.png)
 ![Deployment Process 2](image3.png)
-*GitHub-based deployment workflow in action*
 
-### 2. Verification Results
+Verification output
 ![Verification Screenshot](image4.png)
-*Deployment verification showing all checks passed*
 
-## 🔄 Git-based Deployment Workflow
+## 5. Reproducibility: Setup and Execution
 
-### Workflow Architecture
-```
-GitHub Repository  →  Deployment Scripts  →  LocalStack S3  →  Live Website
-       ↓                       ↓                    ↓              ↓
-   Code Changes     →    Build & Deploy    →    File Sync   →   Updated Site
-```
+Prerequisites
 
-### Key Features Implemented
+- LocalStack listening on port `4566`.
+- Node.js and npm installed.
+- Git configured with access to the GitHub repository.
 
-#### 🔧 Automated Deployment Scripts
-- **`deploy-from-github.sh`**: Main deployment script that:
-  - Checks LocalStack status
-  - Clones/updates repository from GitHub
-  - Installs dependencies and builds Next.js app
-  - Deploys to S3 with file synchronization
-
-#### ✅ Verification System
-- **`verify-deployment.sh`**: Automated verification that:
-  - Checks website accessibility (HTTP 200)
-  - Verifies file count and structure
-  - Confirms index.html exists
-
-#### ↩️ Rollback Capability
-- **`rollback.sh`**: Version control integration for:
-  - Rolling back to specific commits
-  - Rebuilding and redeploying previous versions
-  - Git history navigation
-
-#### 👁️ Continuous Monitoring
-- **`watch-and-deploy.sh`**: CI/CD simulation that:
-  - Monitors GitHub for new commits
-  - Automatically triggers deployments
-  - Provides continuous integration experience
-
-## 🚀 Quick Start
-
-### Prerequisites
-- LocalStack running on port 4566
-- Node.js and npm installed
-- Git configured with GitHub access
-
-### Deployment Commands
+Automated execution (recommended)
 
 ```bash
-# Navigate to practical6-example directory
 cd practical6-example
-
-# Deploy from GitHub (main command)
 make deploy-github
-
-# Verify deployment
 make verify
-
-# Rollback to specific commit
-make rollback COMMIT=abc1234
-
-# Watch for changes (auto-deploy)
-make watch
 ```
 
-### Manual Script Execution
+Manual script sequence
 
 ```bash
-# Set your GitHub repository
-export GITHUB_REPO="KeldenPDorji/practical6-nextjs-app"
-
-# Deploy directly
+export GITHUB_REPO="practical6-nextjs-app"
 ./scripts/deploy-from-github.sh
-
-# Verify deployment
 ./scripts/verify-deployment.sh
-
-# Rollback to previous version
-./scripts/rollback.sh 9f70046
+./scripts/rollback.sh <COMMIT_SHA>
 ```
 
-## 📂 Project Structure
+## 6. Project Structure
 
 ```
-P6A/                              # GitHub repository
-├── app/                          # Next.js application
-│   ├── page.tsx                 # Main page with updated title
-│   ├── layout.tsx               # App layout
-│   └── globals.css              # Global styles
-├── image1.png                   # Website evidence screenshot
-├── image2.png                   # Deployment process screenshot 1
-├── image3.png                   # Deployment process screenshot 2
-├── image4.png                   # Verification screenshot
-├── package.json                 # Dependencies and scripts
-├── next.config.js               # Next.js configuration
-├── tsconfig.json                # TypeScript configuration
-└── README.md                    # This documentation
+P6A/
+├── app/                        # Next.js application source
+├── image1.png                  # Website screenshot (evidence)
+├── image2.png                  # Deployment process screenshot
+├── image3.png                  # Deployment process screenshot
+├── image4.png                  # Verification screenshot
+├── package.json
+├── next.config.js
+└── README.md
 
-practical6-example/               # Deployment infrastructure
-├── scripts/
-│   ├── deploy-from-github.sh    # Main deployment script
-│   ├── verify-deployment.sh     # Verification script
-│   ├── rollback.sh              # Rollback script
-│   └── watch-and-deploy.sh      # Watch script
-├── terraform/                   # Infrastructure code
-└── Makefile                     # Build commands
+practical6-example/
+├── scripts/                    # deployment and verification scripts
+├── terraform/                  # IaC components (Practical 6)
+└── Makefile
 ```
 
-## 🔄 Development Workflow
+## 7. Results and Verification
 
-### Making Changes
+Representative verification outcomes captured during testing:
 
-1. **Edit Application Code**
-   ```bash
-   # In P6A directory
-   code app/page.tsx
-   ```
+- HTTP status: 200 (index page served)
+- File count: 18 deployed artifacts
+- Presence of `index.html` and expected site title
 
-2. **Commit and Push Changes**
-   ```bash
-   git add .
-   git commit -m "Update: describe your changes"
-   git push origin main
-   ```
+These results were obtained using `verify-deployment.sh` and are depicted in the evidence images above.
 
-3. **Deploy Changes**
-   ```bash
-   # In practical6-example directory
-   make deploy-github
-   ```
+## 8. Discussion and Future Work
 
-4. **Verify Deployment**
-   ```bash
-   make verify
-   ```
+While the present workflow is suitable for local experimentation and instruction, transitioning to production would require cloud-based CI/CD, automated testing gates, environment segregation, and robust monitoring. Suggested enhancements include GitHub Actions integration, automated end-to-end tests, and deployment notifications.
 
-### Git Commit History
-```
-81eedfc Update homepage title to reflect Practical 6A
-9f70046 Initial commit: Next.js app for S3 deployment
-2363708 First commit
-```
+## 9. Conclusion
 
-## 🎯 Key Accomplishments
+This project successfully demonstrates a Git-driven deployment workflow that exports a Next.js site and synchronizes it to an S3-compatible endpoint in LocalStack. The repository contains scripts for deployment, verification, rollback, and a concise set of instructions to reproduce the results.
 
-### ✅ GitHub Integration
-- Repository successfully created and connected
-- Automated cloning and pulling from GitHub
-- Version control integration with deployment process
+## References
 
-### ✅ Deployment Automation
-- 6-step automated deployment process
-- LocalStack health checking
-- Dependency management and build automation
-- S3 synchronization with file counting
-
-### ✅ Quality Assurance
-- Automated verification system
-- HTTP status code checking
-- File existence validation
-- All checks passing consistently
-
-### ✅ Version Management
-- Commit-based rollback system
-- Git history integration
-- Quick version recovery capabilities
-
-### ✅ CI/CD Understanding
-- Local CI/CD simulation implemented
-- Continuous monitoring capabilities
-- Automated deployment triggers
-
-## 🏗️ Infrastructure Details
-
-### LocalStack S3 Configuration
-- **Bucket**: `practical6-deployment-dev`
-- **Website Endpoint**: `http://practical6-deployment-dev.s3-website.localhost.localstack.cloud:4566`
-- **Static Hosting**: Enabled with index.html routing
-- **File Count**: 18 files deployed
-
-### Next.js Configuration
-- **Framework**: Next.js 14.2.5
-- **Export Mode**: Static site generation
-- **Output Directory**: `./out`
-- **Build Target**: Static HTML/CSS/JS files
-
-## 🔍 Verification Results
-
-Current deployment status:
-- ✅ Website accessible (HTTP 200)
-- ✅ 18 files successfully deployed
-- ✅ Index.html exists and functional
-- ✅ Updated title displayed: "Practical 6A - Git-based Deployment"
-- ✅ All verification checks passed
-
-## 🚀 Future Enhancements
-
-Potential improvements for production use:
-- GitHub Actions integration for cloud CI/CD
-- Automated testing in deployment pipeline
-- Environment-specific deployments (dev/staging/prod)
-- Deployment notifications (email/Slack)
-- Monitoring and logging integration
-
-## 📝 Assignment Compliance
-
-This implementation fully satisfies all Practical 6A requirements:
-
-1. **✅ GitHub Repository Management**: Repository created and properly configured
-2. **✅ Git-based Deployment Workflow**: Complete automation from GitHub to S3
-3. **✅ CI/CD Concepts**: Local simulation and understanding demonstrated
-4. **✅ Infrastructure Integration**: LocalStack and Terraform properly utilized
-5. **✅ Documentation**: Comprehensive README with evidence screenshots
-6. **✅ Verification**: Automated testing and validation systems
-
-**Assignment Status: COMPLETE** 🎉
+- Project repository: https://github.com/Wangpos/practical6-nextjs-app
 
 ---
 
-*This project demonstrates mastery of Git-based deployment workflows and modern DevOps practices using Infrastructure as Code principles.*
-# practical6-nextjs-app
+If you would like, I can (1) run a quick check that the images render locally, (2) stage and commit this change on your behalf, or (3) produce an abbreviated academic abstract suitable for submission. Please tell me which action you prefer.
